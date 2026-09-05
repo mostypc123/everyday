@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include "package.h"
+#include "rrclone.h"
 
 int main(int argc, char** argv) {
   if (argc == 1) {
@@ -11,6 +12,7 @@ int main(int argc, char** argv) {
   }
 
   if (!strcmp("package", argv[1])) {
+
     if (argc < 5) {
       puts("usage: everyday package <dir> <pkgver> <pkgname> [--pre-url=...]");
       return 2;
@@ -37,12 +39,16 @@ int main(int argc, char** argv) {
       }
     }
 
-    int result = package(argv[2], argv[3], argv[4], preurl, push, override_repo);
+    int result = package(
+      argv[2], argv[3], argv[4], preurl, push, override_repo
+    );
 
     if (need_to_free_preurl) free(preurl);
 
     return result;
+
   } else if (!strcmp("gnuftp", argv[1])) {
+
     if (argc < 5) {
       puts("usage: everyday gnuftp <package> <pkgver> <fileext>");
       return 2;
@@ -50,7 +56,18 @@ int main(int argc, char** argv) {
 
     print_gnu_ftp_url(argv[2], argv[3], argv[4]);
     return 0;
+
+  } else if (!strcmp("rrclone", argv[1])) {
+
+    if (argc < 3) {
+      puts("usage: everyday rrclone <repo>");
+      return 2;
+    }
+
+    return rrclone(argv[2]);
+
   } else {
+
     printf("unknown arg %s\n", argv[1]);
     return 2;
   }
