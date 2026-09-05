@@ -18,6 +18,9 @@ This is some of the worst code I ever wrote.
 - `everyday rrclone`: `<repo name>`
   - Description: Clone a Github repo by the Redrose Linux org.
   - Example: `everyday rrclone car`
+- `everyday <task name>`
+  - Description: Run an executable in (envvar) `EVERYDAY_TASKS_DIR` with (envvar) `ARGS`.
+  - Note: `EVERYDAY_TASKS_DIR` does not support `PATH`-like `:` syntax, hence the name.
 
 ## Compilation
 
