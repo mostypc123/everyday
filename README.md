@@ -30,3 +30,7 @@ make install
 # make install PREFIX=/usr/local
 # make install DESTDIR=$(pwd)/../stuff PREFIX=/ BINDIR=Apps/
 ```
+
+## License
+
+The Unlicense.
