@@ -4,7 +4,8 @@ LDFLAGS :=
 
 SOURCES = $(wildcard src/*.c)
 OBJECTS = $(SOURCES:src/%.c=obj/%.o)
-TARGET = everyday
+NAME = everyday
+TARGET := $(NAME)
 
 all: $(TARGET)
 
@@ -24,6 +25,12 @@ rebuild: clean all
 
 run: $(TARGET)
 	./$(TARGET)
+
+DESTDIR := /
+PREFIX := /usr
+BINDIR := /bin
+install: $(TARGET)
+	install -m775 $(TARGET) $(DESTDIR)/$(PREFIX)/$(BINDIR)/$(NAME)
 
 .PHONY: all clean rebuild run
 
