@@ -12,7 +12,7 @@ int main(int argc, char** argv) {
 
   if (!strcmp("package", argv[1])) {
     if (argc < 5) {
-      puts("usage: everyday package <dir> <pkgver> <pkgname>");
+      puts("usage: everyday package <dir> <pkgver> <pkgname> [--pre-url=...]");
       return 2;
     }
 
@@ -32,6 +32,14 @@ int main(int argc, char** argv) {
     if (need_to_free_preurl) free(preurl);
 
     return result;
+  } else if (!strcmp("gnuftp", argv[1])) {
+    if (argc < 5) {
+      puts("usage: everyday gnuftp <package> <pkgver> <fileext>");
+      return 2;
+    }
+
+    print_gnu_ftp_url(argv[2], argv[3], argv[4]);
+    return 0;
   } else {
     printf("unknown arg %s\n", argv[1]);
     return 2;

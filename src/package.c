@@ -63,3 +63,13 @@ int package(
 
   return 0;
 }
+
+void print_gnu_ftp_url(const char* package, const char* version, char* ext) {
+  if (ext[0] == '.') {
+    // remove trailing dot
+    strcpy(ext, ext+1);
+  }
+
+  printf("https://ftp.gnu.org/gnu/%s/%s-%s.%s\n", package, package, version, ext);
+}
+
