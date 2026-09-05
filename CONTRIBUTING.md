@@ -16,8 +16,8 @@ For everything, use snake case. For macros, use screaming snake case.
 
 ## Commit messages
 
-Use Conventional Commits: https://www.conventionalcommits.org/en/v1.0.0/
-If you are making a WIP project, you do not have to, but the PR title MUST follow Conventional Commits either way.
+Use Conventional Commits: https://www.conventionalcommits.org/en/v1.0.0/<br>
+If you are making a WIP PR, you do not have to, but the PR title MUST follow Conventional Commits either way.
 
 ## Reporting bugs
 
