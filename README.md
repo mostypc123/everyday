@@ -2,6 +2,8 @@
 
 My personal CLI tool that does some tasks I do all the time.
 
+This is some of the worst code I ever wrote.
+
 ## Usage
 
 - `everyday package`: `<stage directory> <package version> <package name> [--pre-url=...]`

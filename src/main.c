@@ -20,14 +20,24 @@ int main(int argc, char** argv) {
       "https://github.com/redroselinux/car3-pkgs/raw/refs/heads/main/";
     _Bool need_to_free_preurl = 0;
 
+    char* override_repo = NULL;
+    _Bool push = 0;
+
     if (argc == 6) {
       if (!strncmp("--pre-url=", argv[5], 10)) {
         preurl = strdup(&argv[5][10]);
         need_to_free_preurl = 1;
       }
+
+      if (!strncmp("--push", argv[5], 6)) {
+        push = 1;
+        if (argc == 7) {
+          override_repo = argv[6];
+        }
+      }
     }
 
-    int result = package(argv[2], argv[3], argv[4], preurl);
+    int result = package(argv[2], argv[3], argv[4], preurl, push, override_repo);
 
     if (need_to_free_preurl) free(preurl);
 
