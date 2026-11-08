@@ -76,9 +76,9 @@ int main(int argc, char** argv) {
     return rrclone(argv[2]);
 
   } else if (
-    !(
-      strcmp("--help", argv[1]) || strcmp("help", argv[1]) || strcmp("-h", argv[1])
-    )
+    !strcmp("--help", argv[1]) ||
+    !strcmp("help", argv[1]) ||
+    !strcmp("-h", argv[1])
   ) {
 
     puts(
@@ -123,7 +123,7 @@ int main(int argc, char** argv) {
   } else {
 
     if (exec_task(argv[1]) == -2) {
-      printf("unknown arg or task %s\ncheck --help", argv[1]);
+      printf("unknown arg or task %s\ncheck --help\n", argv[1]);
       return 2;
     }
     return 0;
