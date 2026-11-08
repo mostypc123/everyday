@@ -75,10 +75,55 @@ int main(int argc, char** argv) {
 
     return rrclone(argv[2]);
 
+  } else if (
+    !(
+      strcmp("--help", argv[1]) || strcmp("help", argv[1]) || strcmp("-h", argv[1])
+    )
+  ) {
+
+    puts(
+      "Usage:\n"
+      "  everyday package <stage directory> <package version> <package name> [options]\n"
+      "  everyday gnuftp <package name> <package version> <file extension>\n"
+      "  everyday rrclone <repository name>\n"
+      "  everyday <task name>\n"
+      "\n"
+      "Commands:\n"
+      "  package    Create a Car package archive and a package list entry.\n"
+      "  gnuftp     Generate a GNU FTP URL for a package.\n"
+      "  rrclone    Clone a GitHub repository from the Redrose Linux organization.\n"
+      "  <task>     Execute a task from EVERYDAY_TASKS_DIR (default: /var/everyday).\n"
+      "\n"
+      "Package options:\n"
+      "  --pre-url=<url>   Specify the base URL where the package files are hosted.\n"
+      "                    Example: --pre-url=https://smth.org/pkg/\n"
+      "  --push[=<url>]    Push the package to a repository. The repository URL is\n"
+      "                    optional and can be omitted to use the default.\n"
+      "  --update          Update an existing package. When Vim opens, copy the\n"
+      "                    existing package list entry and edit it accordingly.\n"
+      "\n"
+      "Examples:\n"
+      "  make install DESTDIR=$PWD/stage && everyday package stage 1.0 my-awesome-package\n"
+      "  everyday package stage 1.0 my-awesome-package --pre-url=https://smth.org/pkg/\n"
+      "  everyday package stage 1.0 my-awesome-package --push\n"
+      "  everyday gnuftp binutils 2.47 .tar.zst\n"
+      "  wget $(everyday gnuftp binutils 2.47 .tar.zst)\n"
+      "  everyday rrclone car\n"
+      "\n"
+      "Notes:\n"
+      "  gnuftp automatically removes a trailing dot from the file extension.\n"
+      "  gnuftp does not check whether the requested package exists.\n"
+      "  rrclone only supports repositories belonging to the Redrose Linux organization.\n"
+      "  Tasks are executables located in EVERYDAY_TASKS_DIR and receive ARGS\n"
+      "  as their arguments.\n"
+      "  EVERYDAY_TASKS_DIR defaults to /var/everyday and does not support\n"
+      "  PATH-like ':'-separated directory lists.\n"
+    );
+
   } else {
 
     if (exec_task(argv[1]) == -2) {
-      printf("unknown arg or task %s\n", argv[1]);
+      printf("unknown arg or task %s\ncheck --help", argv[1]);
       return 2;
     }
     return 0;
