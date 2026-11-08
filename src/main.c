@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
   if (!strcmp("package", argv[1])) {
 
     if (argc < 5) {
-      puts("usage: everyday package <dir> <pkgver> <pkgname> [--pre-url=...]");
+      puts("usage: everyday package <dir> <pkgver> <pkgname> [--pre-url=...] [--push=...] [--update]");
       return 2;
     }
 
@@ -24,27 +24,35 @@ int main(int argc, char** argv) {
     _Bool need_to_free_preurl = 0;
 
     char* override_repo = NULL;
-    _Bool push = 0;
+    _Bool need_to_free_override_repo = 0;
 
-    if (argc == 6) {
-      if (!strncmp("--pre-url=", argv[5], 10)) {
-        preurl = strdup(&argv[5][10]);
+    _Bool push = 0;
+    _Bool update = 0;
+
+    for (int i = 1; i < argc; i++) {
+      const char* arg = argv[i];
+
+      if (!strncmp("--pre-url=", arg, 10)) {
+        preurl = strdup(&arg[10]);
         need_to_free_preurl = 1;
       }
 
-      if (!strncmp("--push", argv[5], 6)) {
+      if (!strncmp("--push", arg, 6)) {
         push = 1;
-        if (argc == 7) {
-          override_repo = argv[6];
-        }
+        if (strlen(arg) > 6 && arg[7] == '=') override_repo = strdup(&arg[7]);
+      }
+
+      if (!strcmp("--update", arg)) {
+        update = 1;
       }
     }
 
     int result = package(
-      argv[2], argv[3], argv[4], preurl, push, override_repo
+      argv[2], argv[3], argv[4], preurl, push, update, override_repo
     );
 
     if (need_to_free_preurl) free(preurl);
+    if (need_to_free_override_repo) free(override_repo);
 
     return result;
 

@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -std=c23 -Wall -Wextra -O2
+CFLAGS := -std=c23 -Wall -Wextra -Werror -O3
 LDFLAGS :=
 
 SOURCES = $(wildcard src/*.c)
@@ -33,4 +33,3 @@ install: $(TARGET)
 	install -m775 $(TARGET) $(DESTDIR)/$(PREFIX)/$(BINDIR)/$(NAME)
 
 .PHONY: all clean rebuild run
-

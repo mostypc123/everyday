@@ -26,7 +26,7 @@ char* make_pkglist_entry(
 
 int package(
   const char* dir, const char* ver, const char* pkgname, const char* preurl,
-  const _Bool push_to_git, const char* override_git_repo
+  const _Bool push_to_git, const _Bool update, const char* override_git_repo
 ) {
   struct stat st;
 
@@ -53,7 +53,7 @@ int package(
   fprintf(carfile, "version %s", ver);
 
   fclose(carfile);
-  
+
   const char* prefix = "fakeroot tar -I zstd -cf ";
   const char* suffix1 = ".tar.zst";
   const size_t size =
@@ -69,8 +69,8 @@ int package(
 
   printf("- preurl is set to %s\n", preurl);
   printf("- packagelist entry:\n\n");
-  
-  const size_t size2 = 
+
+  const size_t size2 =
     strlen(pkgname) + strlen(preurl) + strlen(suffix1) + strlen(dir) + 3;
   char buf2[size2];
   snprintf(buf2, size2, "%s%s%s", preurl, pkgname, suffix1);
@@ -111,15 +111,29 @@ int package(
       return 1;
     }
 
-    FILE* fptr = fopen(pkglist_path, "a");
-    if (!fptr) {
-      puts("failed to open pkglist");
-      return 1;
+    if (!update) {
+      FILE* fptr = fopen(pkglist_path, "a");
+      if (!fptr) {
+        puts("failed to open pkglist");
+        return 1;
+      }
+
+      fprintf(fptr, "\n%s", pkglist_entry);
+
+      fclose(fptr);
+    } else {
+      const char* command_prefix = "vim ";
+      char command[strlen(command_prefix) + strlen(pkglist_path) + 1];
+      snprintf(command, sizeof(command), "%s%s", command_prefix, pkglist_path);
+
+      if (system(command) != 0) {
+        puts("failed to run vim, launching shell");
+        if (system("sh") /* i love running the shell with the shell */ != 0) {
+          puts("failed to run a shell; check your /usr symlinks");
+          exit(1);
+        }
+      }
     }
-
-    fprintf(fptr, "\n%s", pkglist_entry);
-
-    fclose(fptr);
 
     if (system(
       "cd .packages_repo && git add . && git commit -m 'automatic addition "
@@ -134,7 +148,7 @@ int package(
       return 1;
     }
   }
-  
+
   free(pkglist_entry);
   free(sha256);
 
@@ -151,4 +165,3 @@ void print_gnu_ftp_url(const char* package, const char* version, char* ext) {
     "https://ftp.gnu.org/gnu/%s/%s-%s.%s\n", package, package, version, ext
   );
 }
-

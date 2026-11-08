@@ -6,11 +6,12 @@ This is some of the worst code I ever wrote.
 
 ## Usage
 
-- `everyday package`: `<stage directory> <package version> <package name> [--pre-url=...] [--push [optional custom repo url]]`
+- `everyday package`: `<stage directory> <package version> <package name> [--pre-url=...] [--push[=optional custom repo url]] [--update]`
   - Description: Create a Car package archive and a Car package list entry.
   - Example: `make install DESTDIR=$PWD/stage && everyday stage 1.0 my-awesome-package`
   - Note: `--pre-url`: The URL where your package files are, for example: `--pre-url=https://smth.org/pkg/`
   - Note: With `--push` you do not have to specify a repo URL.
+  - Note: With `--update` the package gets updated; COPY THE PACKAGELIST ENTRY AND EDIT IT WHEN VIM OPENS.
 - `everyday gnuftp`: `<package name> <package version> <file extension>`
   - Description: Generate a GNU FTP url to a package.
   - Note: A trailing dot on the left side in the file extension will be automatically removed.
